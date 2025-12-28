@@ -7,7 +7,6 @@
 <style>
 body {
   margin: 0;
-  overflow: hidden;
   background: #000;
   font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
   color: #fff;
@@ -16,8 +15,7 @@ body {
 /* ===== STAR SKY ===== */
 .stars {
   position: fixed;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   z-index: 0;
 }
 
@@ -75,7 +73,7 @@ h1 {
   margin-bottom: 30px;
 }
 
-/* ===== SECRET BUTTON (SUBTLE) ===== */
+/* ===== SECRET BUTTON ===== */
 .secret-btn {
   font-size: 0.9em;
   color: #777;
@@ -83,8 +81,8 @@ h1 {
   padding: 6px 14px;
   border-radius: 20px;
   cursor: pointer;
-  transition: all 0.3s;
   background: transparent;
+  transition: all 0.3s;
 }
 
 .secret-btn:hover {
@@ -100,7 +98,7 @@ h1 {
   transition: opacity 0.6s;
 }
 
-/* ===== TIMELINE OVERLAY ===== */
+/* ===== TIMELINE ===== */
 .timeline {
   position: fixed;
   inset: 0;
@@ -118,15 +116,37 @@ h1 {
 }
 
 .timeline p {
-  max-width: 300px;
+  max-width: 320px;
   opacity: 0.85;
-  margin: 6px 0;
+  margin: 8px 0;
 }
 
 .close {
   margin-top: 20px;
   opacity: 0.6;
   cursor: pointer;
+}
+
+/* ===== LETTER REVEAL ===== */
+.letter {
+  max-width: 600px;
+  margin: 120px auto;
+  padding: 0 20px;
+  text-align: left;
+  line-height: 1.8;
+  font-size: 1.1em;
+}
+
+.line {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease;
+  margin: 30px 0;
+}
+
+.line.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>
 </head>
@@ -150,27 +170,40 @@ h1 {
 
 <div class="timeline" id="timeline">
   <h2>Our Timeline</h2>
-  <p>🌱 5 March 2023 — Our first conversation. Everything Speical from first day.</p>
 
-<p>🌙 Nights turned into habits — video calls, silence, comfort, falling asleep together.</p>
-
-<p>🎂 Our birthdays crossed time zones, but never distance.</p>
-
-<p>🌍 Distance tested patience, trust, and strength — and somehow made us stronger.</p>
-
-<p>💬 Fights happened. So did apologies. We chose understanding over ego.</p>
-
-<p>✨ 23 November 2025 — Offically become Couples.</p>
-
-<p>🔁 Every day since — choosing you again, without needing a reason.</p>
+  <p>🌱 5 March 2023 — Our first conversation. Nothing special… until everything was.</p>
+  <p>🌙 Nights turned into habits — video calls, silence, comfort.</p>
+  <p>🎂 Birthdays crossed time zones, not hearts.</p>
+  <p>🌍 Distance tested patience, trust, and strength.</p>
+  <p>💬 Fights happened. Apologies mattered more.</p>
+  <p>✨ 23 November 2025 — Official, without needing proof.</p>
+  <p>🔁 Every day since — choosing you again.</p>
 
   <div class="close" onclick="closeTimeline()">close</div>
+</div>
+
+<div class="letter">
+  <div class="line">I didn’t expect this.</div>
+  <div class="line">Not the timing. Not the distance. Not you.</div>
+
+  <div class="line">But some people arrive quietly,</div>
+  <div class="line">and suddenly the world rearranges itself.</div>
+
+  <div class="line">We learned patience.</div>
+  <div class="line">We learned trust.</div>
+  <div class="line">We learned how to choose each other.</div>
+
+  <div class="line">If love had a shape,</div>
+  <div class="line">it would look like persistence.</div>
+
+  <div class="line">And if it had a name,</div>
+  <div class="line">it would be yours.</div>
 </div>
 
 <script>
 /* ===== STARS ===== */
 const starBox = document.getElementById("stars");
-for (let i = 0; i < 120; i++) {
+for (let i = 0; i < 140; i++) {
   const s = document.createElement("div");
   s.className = "star";
   s.style.left = Math.random() * 100 + "vw";
@@ -181,10 +214,8 @@ for (let i = 0; i < 120; i++) {
   starBox.appendChild(s);
 }
 
-/* ===== START DATE ===== */
-const startDate = new Date("2023-03-05");
-
 /* ===== COUNTER ===== */
+const startDate = new Date("2023-03-05");
 function updateCounter() {
   const now = new Date();
   const total = Math.floor((now - startDate) / 86400000);
@@ -202,12 +233,11 @@ function updateCounter() {
 }
 updateCounter();
 
-/* ===== SECRET ROTATION ===== */
+/* ===== SECRET MESSAGES ===== */
 const secrets = [
   "You are my favorite bug in the system 🫶",
   "Even silence feels warm with you.",
   "I’d still choose you in every universe.",
-  "Distance never scared me — losing you did.",
   "Some connections don’t fade."
 ];
 let idx = 0;
@@ -222,21 +252,56 @@ function showSecret() {
   }, 200);
 }
 
-/* ===== TIMELINE ===== */
+/* ===== TIMELINE CONTROL ===== */
 function openTimeline() {
   document.getElementById("timeline").style.display = "flex";
   document.body.classList.add("paused");
 }
-
 function closeTimeline() {
   document.getElementById("timeline").style.display = "none";
   document.body.classList.remove("paused");
 }
 
-/* ===== CONSTELLATION MOMENT ===== */
+/* ===== LETTER SCROLL REVEAL ===== */
+const lines = document.querySelectorAll('.line');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+    }
+  });
+}, { threshold: 0.3 });
+lines.forEach(l => observer.observe(l));
+
+/* ===== REAL CONSTELLATION DRAW ===== */
+const constellation = [
+  [20,40],[20,55],[20,70],[30,55],[40,40],[40,55],[40,70], // M
+  [55,40],[55,70],[65,40],[65,70],                        // O
+  [80,40],[80,70],[90,40],[90,70],[100,40],[100,70],     // N
+  [115,40],[115,55],[115,70],                             // I
+  [130,40],[130,55],[130,70],[140,55],                    // C
+  [155,40],[155,55],[155,70],[165,55]                     // A
+];
+
+const stars = document.querySelectorAll('.star');
+
 setTimeout(() => {
-  alert("MONICA ✨");
-}, 6000);
+  stars.forEach((star, i) => {
+    if (constellation[i]) {
+      star.style.transition = "all 2s ease";
+      star.style.left = constellation[i][0] + "vw";
+      star.style.top = constellation[i][1] + "vh";
+    }
+  });
+
+  setTimeout(() => {
+    stars.forEach(star => {
+      star.style.left = Math.random() * 100 + "vw";
+      star.style.top = Math.random() * 120 + "vh";
+    });
+  }, 5000);
+
+}, 7000);
 </script>
 
 </body>
