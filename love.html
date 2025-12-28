@@ -5,327 +5,266 @@
 <title>For You ❤️</title>
 
 <style>
-/* ===== BASE ===== */
+/* ===== RESET ===== */
 body {
   margin: 0;
-  background: #000;
-  color: #fff;
+  background: #0f0f12;
   font-family: -apple-system, BlinkMacSystemFont, Arial,
-               "PingFang SC", "Microsoft YaHei", sans-serif;
+               "PingFang SC","Microsoft YaHei",sans-serif;
+  color: #fff;
 }
 
-/* ===== STAR SKY ===== */
-.stars {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-}
-.star {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: #fff;
-  border-radius: 50%;
-  opacity: .8;
-  animation: drift linear infinite, twinkle ease-in-out infinite;
-}
-.paused .star { animation-play-state: paused; }
-
-@keyframes drift {
-  from { transform: translateY(0); }
-  to { transform: translateY(-120vh); }
-}
-@keyframes twinkle {
-  0%,100% { opacity:.3; }
-  50% { opacity:1; }
-}
-
-/* ===== CONTENT ===== */
-.container {
-  position: relative;
-  z-index: 2;
+/* ===== APP SHELL ===== */
+.app {
+  max-width: 420px;
+  margin: 0 auto;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  background: #151518;
+}
+
+/* ===== TOP BAR ===== */
+.topbar {
+  position: sticky;
+  top: 0;
+  background: #151518;
+  padding: 14px;
   text-align: center;
-  padding: 20px;
+  font-weight: 600;
+  border-bottom: 1px solid #222;
+  z-index: 5;
 }
-h1 { color:#ff5c8a; font-size:2.6em; margin-bottom:10px; }
-.subtitle { opacity:.8; margin-bottom:25px; }
-.counter { color:#ffd6e0; line-height:1.6; margin-bottom:30px; }
 
-/* ===== SECRET ===== */
+/* ===== FEED ===== */
+.feed {
+  padding: 12px;
+}
+
+/* ===== POST CARD ===== */
+.post {
+  background: #1c1c20;
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.25);
+}
+
+.post .date {
+  font-size: 0.75em;
+  opacity: .6;
+  margin-bottom: 6px;
+}
+
+.post .content {
+  font-size: 1em;
+  line-height: 1.6;
+}
+
+/* ===== PINNED POST ===== */
+.pinned {
+  border: 1px solid #ff5c8a;
+}
+
+.pinned .badge {
+  font-size: .75em;
+  color: #ff5c8a;
+  margin-bottom: 6px;
+}
+
+/* ===== COUNTER CARD ===== */
+.counter {
+  text-align: center;
+  font-size: 1.1em;
+  color: #ffd6e0;
+}
+
+/* ===== SECRET BUTTON ===== */
 .secret-btn {
-  font-size:.9em;
-  color:#777;
-  border:1px solid rgba(255,255,255,.2);
-  padding:6px 14px;
-  border-radius:20px;
-  background:transparent;
-  cursor:pointer;
+  margin-top: 10px;
+  background: transparent;
+  border: 1px dashed rgba(255,255,255,.3);
+  color: #aaa;
+  border-radius: 12px;
+  padding: 8px;
+  width: 100%;
+  cursor: pointer;
 }
-.secret-btn:hover { color:#fff; border-color:#ff5c8a; }
-.reveal { margin-top:18px; color:#ff9aa2; opacity:0; transition:.6s; }
 
-/* ===== TIMELINE ===== */
-.timeline {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.85);
-  display: none;
-  z-index: 10;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+.reveal {
+  margin-top: 8px;
+  color: #ff9aa2;
 }
-.timeline h2 { color:#ff5c8a; margin-bottom:20px; }
-.timeline p { max-width:340px; opacity:.85; margin:8px 0; }
-.close { margin-top:20px; opacity:.6; cursor:pointer; }
-
-/* ===== LETTER ===== */
-.letter {
-  max-width:600px;
-  margin:120px auto;
-  padding:0 20px;
-  text-align:left;
-  line-height:1.8;
-}
-.line {
-  opacity:0;
-  transform:translateY(20px);
-  transition:.8s;
-  margin:30px 0;
-}
-.line.show { opacity:1; transform:none; }
 
 /* ===== ANNIVERSARY BILLBOARD ===== */
 .billboard {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle, #140015, #000);
+  background: #000;
   display: none;
-  z-index: 30;
+  z-index: 20;
   justify-content: center;
   align-items: center;
   text-align: center;
   padding: 20px;
 }
+
 .billboard h1 {
-  font-size: 3em;
   color: #ff5c8a;
-  margin-bottom: 20px;
-}
-.billboard p {
-  font-size: 1.3em;
-  opacity: .9;
-  margin: 6px 0;
+  font-size: 2.8em;
+  margin-bottom: 12px;
 }
 
-/* ===== LANGUAGE TOGGLE (MOBILE-FIRST) ===== */
+/* ===== LANGUAGE TOGGLE ===== */
 .lang-toggle {
   position: fixed;
-  bottom: 16px;
+  bottom: 14px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(20,20,20,.9);
-  border: 1px solid rgba(255,255,255,.25);
-  padding: 8px 16px;
-  border-radius: 30px;
-  font-size: .9em;
-  color: #ddd;
+  background: #1c1c20;
+  border: 1px solid #333;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: .85em;
   cursor: pointer;
-  z-index: 40;
-}
-.lang-toggle:hover { color:#fff; border-color:#ff5c8a; }
-
-/* desktop refinement */
-@media (min-width: 768px) {
-  .lang-toggle {
-    top: 16px;
-    bottom: auto;
-    left: auto;
-    right: 16px;
-    transform: none;
-  }
+  z-index: 30;
 }
 </style>
 </head>
 
 <body>
 
-<div class="lang-toggle" onclick="toggleLang()">EN / 中文</div>
-
-<div class="stars" id="stars"></div>
-
-<!-- ANNIVERSARY BILLBOARD -->
 <div class="billboard" id="billboard">
   <div id="billboardText"></div>
 </div>
 
-<div class="container">
-  <h1>Hi Monica ❤️</h1>
-  <div class="subtitle" id="subtitle"></div>
+<div class="lang-toggle" onclick="toggleLang()">EN / 中文</div>
 
-  <div class="counter" id="counter"></div>
+<div class="app">
+  <div class="topbar">Monica 💗 Sahil</div>
 
-  <button class="secret-btn" onclick="showSecret()" id="secretBtn"></button>
-  <div class="reveal" id="reveal"></div>
+  <div class="feed">
 
-  <div style="margin-top:25px; opacity:.6; cursor:pointer"
-       onclick="openTimeline()" id="memoryBtn"></div>
+    <!-- COUNTER -->
+    <div class="post counter" id="counter"></div>
+
+    <!-- PINNED LETTER -->
+    <div class="post pinned">
+      <div class="badge" id="pinnedBadge"></div>
+      <div class="content" id="letter"></div>
+    </div>
+
+    <!-- SECRET POST -->
+    <div class="post">
+      <div class="content" id="secretLabel"></div>
+      <button class="secret-btn" onclick="showSecret()" id="secretBtn"></button>
+      <div class="reveal" id="reveal"></div>
+    </div>
+
+    <!-- TIMELINE POSTS -->
+    <div id="timelinePosts"></div>
+
+  </div>
 </div>
-
-<div class="timeline" id="timeline">
-  <h2 id="timelineTitle"></h2>
-  <div id="timelineContent"></div>
-  <div class="close" onclick="closeTimeline()" id="closeBtn"></div>
-</div>
-
-<div class="letter" id="letter"></div>
 
 <script>
-/* ===== STARS ===== */
-const starBox = document.getElementById("stars");
-for (let i = 0; i < 140; i++) {
-  const s = document.createElement("div");
-  s.className = "star";
-  s.style.left = Math.random()*100 + "vw";
-  s.style.top = Math.random()*120 + "vh";
-  s.style.animationDuration =
-    (20+Math.random()*30)+"s,"+(2+Math.random()*3)+"s";
-  starBox.appendChild(s);
-}
-
 /* ===== COUNTER ===== */
 const startDate = new Date("2023-03-05");
-function updateCounter() {
-  const days = Math.floor((new Date() - startDate)/86400000);
-  let y=Math.floor(days/365), r=days%365;
-  let m=Math.floor(r/30); r%=30;
-  let w=Math.floor(r/7), d=r%7;
-  counter.innerHTML =
-    `<strong>${y}y · ${m}m · ${w}w · ${d}d</strong><br>
-     <span style="opacity:.7">(${days} days)</span>`;
+function updateCounter(){
+  const days=Math.floor((new Date()-startDate)/86400000);
+  let y=Math.floor(days/365),r=days%365;
+  let m=Math.floor(r/30);r%=30;
+  let w=Math.floor(r/7),d=r%7;
+  counter.innerHTML=`Together<br><strong>${y}y · ${m}m · ${w}w · ${d}d</strong><br><span style="opacity:.6">${days} days</span>`;
 }
 updateCounter();
 
-/* ===== LANGUAGE CONTENT ===== */
-let lang = "en";
-const text = {
+/* ===== LANGUAGE DATA ===== */
+let lang="en";
+const data={
 en:{
- subtitle:"Some distances are written in the stars.",
- secretBtn:"something small",
- memoryBtn:"✦ memories",
- close:"close",
- timelineTitle:"Our Timeline",
- timeline:[
-  "🌱 5 March 2023 — Our first conversation. Nothing special… until everything was.",
-  "🌙 Nights turned into habits — video calls, silence, comfort.",
-  "🎂 Birthdays crossed time zones, not hearts.",
-  "🌍 Distance tested patience, trust, and strength.",
-  "💬 Fights happened. Apologies mattered more.",
-  "✨ 23 November 2025 — Official, without needing proof.",
-  "🔁 Every day since — choosing you again."
+ pinnedBadge:"📌 Pinned",
+ letter:"I didn’t expect this. Not the distance. Not the timing. But somehow, you stayed.",
+ secretLabel:"A private post",
+ secretBtn:"Tap to reveal",
+ secrets:[
+  "You are my favorite bug 🫶",
+  "Still choosing you.",
+  "Some connections don’t fade."
  ],
- letter:[
-  "I didn’t expect this.",
-  "Not the timing. Not the distance. Not you.",
-  "But some people arrive quietly, and the world rearranges.",
-  "We learned patience. We learned trust.",
-  "If love had a name — it would be yours."
+ posts:[
+  ["5 Mar 2023","🌱 First conversation. Nothing special… until everything was."],
+  ["Late nights","🌙 Video calls became a habit."],
+  ["Birthdays","🎂 Time zones didn’t matter."],
+  ["Distance","🌍 It tested us, not broke us."],
+  ["23 Nov 2025","✨ Official, without needing proof."]
  ],
  billboard:[
   "<h1>Happy Anniversary ❤️</h1>",
-  "<p>23 November.</p>",
+  "<p>23 November</p>",
   "<p>Still choosing you.</p>"
  ]
 },
 zh:{
- subtitle:"有些距离，早已写进了星空。",
- secretBtn:"一点小秘密",
- memoryBtn:"✦ 回忆",
- close:"关闭",
- timelineTitle:"我们的时间线",
- timeline:[
-  "🌱 2023年3月5日 — 第一次对话，一切从这里开始。",
-  "🌙 夜晚成了习惯，视频、安静、陪伴。",
-  "🎂 生日跨越时区，却没有拉开彼此。",
-  "🌍 距离考验了耐心、信任和坚持。",
-  "💬 有争吵，也有道歉。",
-  "✨ 2025年11月23日 — 不需要证明的正式。",
-  "🔁 从那以后，每一天都选择你。"
+ pinnedBadge:"📌 置顶",
+ letter:"我没想到会这样。不是距离，也不是时间。但你一直都在。",
+ secretLabel:"私密动态",
+ secretBtn:"点击查看",
+ secrets:[
+  "你是我最喜欢的那个例外 🫶",
+  "我仍然选择你。",
+  "有些连接不会消失。"
  ],
- letter:[
-  "我没想到会这样。",
-  "不是时间，不是距离，也不是你。",
-  "但有些人悄悄出现，世界便开始改变。",
-  "我们学会了耐心，也学会了信任。",
-  "如果爱有名字，那一定是你。"
+ posts:[
+  ["2023年3月5日","🌱 第一次对话，一切从这里开始。"],
+  ["深夜","🌙 视频通话成了习惯。"],
+  ["生日","🎂 时区没有拉开彼此。"],
+  ["距离","🌍 考验了我们，但没击败我们。"],
+  ["2025年11月23日","✨ 不需要证明的正式。"]
  ],
  billboard:[
   "<h1>纪念日快乐 ❤️</h1>",
-  "<p>11月23日。</p>",
+  "<p>11月23日</p>",
   "<p>我仍然选择你。</p>"
  ]
 }
 };
 
+/* ===== APPLY LANGUAGE ===== */
+let secretIndex=0;
 function applyLang(){
- const c=text[lang];
- subtitle.innerText=c.subtitle;
- secretBtn.innerText=c.secretBtn;
- memoryBtn.innerText=c.memoryBtn;
- closeBtn.innerText=c.close;
- timelineTitle.innerText=c.timelineTitle;
- timelineContent.innerHTML=c.timeline.map(t=>`<p>${t}</p>`).join("");
- letter.innerHTML=c.letter.map(l=>`<div class="line">${l}</div>`).join("");
- billboardText.innerHTML=c.billboard.join("");
- observeLetter();
+  const d=data[lang];
+  pinnedBadge.innerText=d.pinnedBadge;
+  letter.innerText=d.letter;
+  secretLabel.innerText=d.secretLabel;
+  secretBtn.innerText=d.secretBtn;
+  reveal.innerText="";
+  timelinePosts.innerHTML="";
+  d.posts.forEach(p=>{
+    timelinePosts.innerHTML+=
+    `<div class="post">
+      <div class="date">${p[0]}</div>
+      <div class="content">${p[1]}</div>
+    </div>`;
+  });
+  billboardText.innerHTML=d.billboard.join("");
 }
 function toggleLang(){
- lang = (lang==="en")?"zh":"en";
- applyLang();
+  lang=lang==="en"?"zh":"en";
+  applyLang();
 }
 
 /* ===== SECRET ===== */
-const secrets=["You are my favorite bug 🫶","Some connections don’t fade.","I’d still choose you."];
-let si=0;
 function showSecret(){
- reveal.style.opacity=0;
- setTimeout(()=>{
-   reveal.innerText=secrets[si];
-   reveal.style.opacity=1;
-   si=(si+1)%secrets.length;
- },200);
-}
-
-/* ===== TIMELINE ===== */
-function openTimeline(){ timeline.style.display="flex"; document.body.classList.add("paused"); }
-function closeTimeline(){ timeline.style.display="none"; document.body.classList.remove("paused"); }
-
-/* ===== LETTER REVEAL ===== */
-let observer;
-function observeLetter(){
- if(observer) observer.disconnect();
- observer=new IntersectionObserver(
-  e=>e.forEach(x=>x.isIntersecting&&x.target.classList.add("show")),
-  {threshold:.3}
- );
- document.querySelectorAll(".line").forEach(l=>observer.observe(l));
+  const s=data[lang].secrets;
+  reveal.innerText=s[secretIndex];
+  secretIndex=(secretIndex+1)%s.length;
 }
 
 /* ===== ANNIVERSARY CHECK ===== */
-/* Anniversary: 23 November */
-const ANN_MONTH = 11;
-const ANN_DAY = 23;
 (function(){
- const d=new Date();
- if(d.getMonth()+1===ANN_MONTH && d.getDate()===ANN_DAY){
-   billboard.style.display="flex";
- }
+  const d=new Date();
+  if(d.getMonth()+1===11 && d.getDate()===23){
+    billboard.style.display="flex";
+  }
 })();
 
 /* INIT */
