@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+
+<style>
+body {
+  background: #0b0b0b;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  padding-top: 20vh;
+}
+
+h1 {
+  color: #ff4d6d;
+  font-size: 2.5em;
+}
+
+p {
+  font-size: 1.1em;
+  opacity: 0.85;
+}
+
+.counter {
+  margin-top: 25px;
+  font-size: 1.2em;
+  color: #ffd6e0;
+}
+
+.secret {
+  margin-top: 40px;
+  font-size: 0.95em;
+  color: #888;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+  margin-top: 15px;
+  color: #ff9aa2;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1>Hi Monica ❤️</h1>
+  <p>This page exists only for you.</p>
+  <p>No distance. No firewall.</p>
+
+  <div class="counter" id="counter"></div>
+
+  <div class="secret" onclick="reveal()">
+    ( tap here )
+  </div>
+  <div class="hidden" id="hiddenMsg">
+    You are my favorite bug in the system 🫶
+  </div>
+</div>
+
+<script>
+const startDate = new Date("2023-03-05"); // CHANGE IF NEEDED
+
+function updateCounter() {
+  const now = new Date();
+  const diff = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+  document.getElementById("counter").innerText =
+    "Together for " + diff + " days";
+}
+
+function reveal() {
+  document.getElementById("hiddenMsg").style.display = "block";
+}
+
+updateCounter();
+</script>
+
+</body>
+</html>
