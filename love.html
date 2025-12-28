@@ -5,11 +5,13 @@
 <title>For You ❤️</title>
 
 <style>
+/* ===== BASE ===== */
 body {
   margin: 0;
   background: #000;
-  font-family: -apple-system, BlinkMacSystemFont, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
   color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, Arial,
+               "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 
 /* ===== STAR SKY ===== */
@@ -22,9 +24,9 @@ body {
   position: absolute;
   width: 2px;
   height: 2px;
-  background: white;
+  background: #fff;
   border-radius: 50%;
-  opacity: 0.8;
+  opacity: .8;
   animation: drift linear infinite, twinkle ease-in-out infinite;
 }
 .paused .star { animation-play-state: paused; }
@@ -34,8 +36,8 @@ body {
   to { transform: translateY(-120vh); }
 }
 @keyframes twinkle {
-  0%,100% { opacity: 0.3; }
-  50% { opacity: 1; }
+  0%,100% { opacity:.3; }
+  50% { opacity:1; }
 }
 
 /* ===== CONTENT ===== */
@@ -48,25 +50,11 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
+  padding: 20px;
 }
 h1 { color:#ff5c8a; font-size:2.6em; margin-bottom:10px; }
 .subtitle { opacity:.8; margin-bottom:25px; }
-.counter { font-size:1.1em; line-height:1.6; color:#ffd6e0; margin-bottom:30px; }
-
-/* ===== LANGUAGE TOGGLE ===== */
-.lang-toggle {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  font-size: .85em;
-  color: #aaa;
-  border: 1px solid rgba(255,255,255,.2);
-  padding: 4px 10px;
-  border-radius: 20px;
-  cursor: pointer;
-  z-index: 20;
-}
-.lang-toggle:hover { color:#fff; border-color:#ff5c8a; }
+.counter { color:#ffd6e0; line-height:1.6; margin-bottom:30px; }
 
 /* ===== SECRET ===== */
 .secret-btn {
@@ -75,11 +63,11 @@ h1 { color:#ff5c8a; font-size:2.6em; margin-bottom:10px; }
   border:1px solid rgba(255,255,255,.2);
   padding:6px 14px;
   border-radius:20px;
-  cursor:pointer;
   background:transparent;
+  cursor:pointer;
 }
 .secret-btn:hover { color:#fff; border-color:#ff5c8a; }
-.reveal { margin-top:18px; font-size:1.1em; color:#ff9aa2; opacity:0; transition:.6s; }
+.reveal { margin-top:18px; color:#ff9aa2; opacity:0; transition:.6s; }
 
 /* ===== TIMELINE ===== */
 .timeline {
@@ -88,9 +76,10 @@ h1 { color:#ff5c8a; font-size:2.6em; margin-bottom:10px; }
   background: rgba(0,0,0,.85);
   display: none;
   z-index: 10;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  padding: 20px;
 }
 .timeline h2 { color:#ff5c8a; margin-bottom:20px; }
 .timeline p { max-width:340px; opacity:.85; margin:8px 0; }
@@ -103,7 +92,6 @@ h1 { color:#ff5c8a; font-size:2.6em; margin-bottom:10px; }
   padding:0 20px;
   text-align:left;
   line-height:1.8;
-  font-size:1.1em;
 }
 .line {
   opacity:0;
@@ -117,21 +105,59 @@ h1 { color:#ff5c8a; font-size:2.6em; margin-bottom:10px; }
 .billboard {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle, #120014, #000);
+  background: radial-gradient(circle, #140015, #000);
   display: none;
   z-index: 30;
   justify-content: center;
   align-items: center;
   text-align: center;
+  padding: 20px;
 }
-.billboard h1 { font-size:3.2em; color:#ff5c8a; margin-bottom:20px; }
-.billboard p { font-size:1.3em; opacity:.9; margin:6px 0; }
+.billboard h1 {
+  font-size: 3em;
+  color: #ff5c8a;
+  margin-bottom: 20px;
+}
+.billboard p {
+  font-size: 1.3em;
+  opacity: .9;
+  margin: 6px 0;
+}
+
+/* ===== LANGUAGE TOGGLE (MOBILE-FIRST) ===== */
+.lang-toggle {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(20,20,20,.9);
+  border: 1px solid rgba(255,255,255,.25);
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: .9em;
+  color: #ddd;
+  cursor: pointer;
+  z-index: 40;
+}
+.lang-toggle:hover { color:#fff; border-color:#ff5c8a; }
+
+/* desktop refinement */
+@media (min-width: 768px) {
+  .lang-toggle {
+    top: 16px;
+    bottom: auto;
+    left: auto;
+    right: 16px;
+    transform: none;
+  }
+}
 </style>
 </head>
 
 <body>
 
 <div class="lang-toggle" onclick="toggleLang()">EN / 中文</div>
+
 <div class="stars" id="stars"></div>
 
 <!-- ANNIVERSARY BILLBOARD -->
@@ -148,7 +174,8 @@ h1 { color:#ff5c8a; font-size:2.6em; margin-bottom:10px; }
   <button class="secret-btn" onclick="showSecret()" id="secretBtn"></button>
   <div class="reveal" id="reveal"></div>
 
-  <div style="margin-top:25px; opacity:.6; cursor:pointer" onclick="openTimeline()" id="memoryBtn"></div>
+  <div style="margin-top:25px; opacity:.6; cursor:pointer"
+       onclick="openTimeline()" id="memoryBtn"></div>
 </div>
 
 <div class="timeline" id="timeline">
@@ -161,30 +188,33 @@ h1 { color:#ff5c8a; font-size:2.6em; margin-bottom:10px; }
 
 <script>
 /* ===== STARS ===== */
-const starBox=document.getElementById("stars");
-for(let i=0;i<140;i++){
-  const s=document.createElement("div");
-  s.className="star";
-  s.style.left=Math.random()*100+"vw";
-  s.style.top=Math.random()*120+"vh";
-  s.style.animationDuration=(20+Math.random()*30)+"s,"+(2+Math.random()*3)+"s";
+const starBox = document.getElementById("stars");
+for (let i = 0; i < 140; i++) {
+  const s = document.createElement("div");
+  s.className = "star";
+  s.style.left = Math.random()*100 + "vw";
+  s.style.top = Math.random()*120 + "vh";
+  s.style.animationDuration =
+    (20+Math.random()*30)+"s,"+(2+Math.random()*3)+"s";
   starBox.appendChild(s);
 }
 
 /* ===== COUNTER ===== */
-const startDate=new Date("2023-03-05");
-function updateCounter(){
-  const t=Math.floor((new Date()-startDate)/86400000);
-  let y=Math.floor(t/365),r=t%365,m=Math.floor(r/30);
-  r%=30; let w=Math.floor(r/7),d=r%7;
-  document.getElementById("counter").innerHTML=
-  `<strong>${y}y · ${m}m · ${w}w · ${d}d</strong><br><span style="opacity:.7">(${t} days)</span>`;
+const startDate = new Date("2023-03-05");
+function updateCounter() {
+  const days = Math.floor((new Date() - startDate)/86400000);
+  let y=Math.floor(days/365), r=days%365;
+  let m=Math.floor(r/30); r%=30;
+  let w=Math.floor(r/7), d=r%7;
+  counter.innerHTML =
+    `<strong>${y}y · ${m}m · ${w}w · ${d}d</strong><br>
+     <span style="opacity:.7">(${days} days)</span>`;
 }
 updateCounter();
 
 /* ===== LANGUAGE CONTENT ===== */
-let lang="en";
-const text={
+let lang = "en";
+const text = {
 en:{
  subtitle:"Some distances are written in the stars.",
  secretBtn:"something small",
@@ -192,12 +222,12 @@ en:{
  close:"close",
  timelineTitle:"Our Timeline",
  timeline:[
-  "🌱 5 March 2023 — Our first conversation. And everything became special.",
-  "🌙 Nights turned into habits — video calls, peace, comfort.",
-  "🎂 Birthdays crossed time zones, made memories together.",
-  "🌍 Distance tested patience, trust, and strength. and we never gave up",
+  "🌱 5 March 2023 — Our first conversation. Nothing special… until everything was.",
+  "🌙 Nights turned into habits — video calls, silence, comfort.",
+  "🎂 Birthdays crossed time zones, not hearts.",
+  "🌍 Distance tested patience, trust, and strength.",
   "💬 Fights happened. Apologies mattered more.",
-  "✨ 23 November 2025 — Official became couples",
+  "✨ 23 November 2025 — Official, without needing proof.",
   "🔁 Every day since — choosing you again."
  ],
  letter:[
@@ -209,8 +239,8 @@ en:{
  ],
  billboard:[
   "<h1>Happy Anniversary ❤️</h1>",
-  "<p>Still choosing you.</p>",
-  "<p>Today is ours.</p>"
+  "<p>23 November.</p>",
+  "<p>Still choosing you.</p>"
  ]
 },
 zh:{
@@ -237,8 +267,8 @@ zh:{
  ],
  billboard:[
   "<h1>纪念日快乐 ❤️</h1>",
-  "<p>我仍然选择你。</p>",
-  "<p>今天，只属于我们。</p>"
+  "<p>11月23日。</p>",
+  "<p>我仍然选择你。</p>"
  ]
 }
 };
@@ -250,20 +280,26 @@ function applyLang(){
  memoryBtn.innerText=c.memoryBtn;
  closeBtn.innerText=c.close;
  timelineTitle.innerText=c.timelineTitle;
- timelineContent.innerHTML=c.timeline.map(x=>`<p>${x}</p>`).join("");
- letter.innerHTML=c.letter.map(x=>`<div class="line">${x}</div>`).join("");
+ timelineContent.innerHTML=c.timeline.map(t=>`<p>${t}</p>`).join("");
+ letter.innerHTML=c.letter.map(l=>`<div class="line">${l}</div>`).join("");
  billboardText.innerHTML=c.billboard.join("");
  observeLetter();
 }
-
-function toggleLang(){ lang=lang==="en"?"zh":"en"; applyLang(); }
+function toggleLang(){
+ lang = (lang==="en")?"zh":"en";
+ applyLang();
+}
 
 /* ===== SECRET ===== */
 const secrets=["You are my favorite bug 🫶","Some connections don’t fade.","I’d still choose you."];
-let i=0;
+let si=0;
 function showSecret(){
  reveal.style.opacity=0;
- setTimeout(()=>{ reveal.innerText=secrets[i]; reveal.style.opacity=1; i=(i+1)%secrets.length; },200);
+ setTimeout(()=>{
+   reveal.innerText=secrets[si];
+   reveal.style.opacity=1;
+   si=(si+1)%secrets.length;
+ },200);
 }
 
 /* ===== TIMELINE ===== */
@@ -273,17 +309,22 @@ function closeTimeline(){ timeline.style.display="none"; document.body.classList
 /* ===== LETTER REVEAL ===== */
 let observer;
 function observeLetter(){
- if(observer)observer.disconnect();
- observer=new IntersectionObserver(e=>e.forEach(x=>x.isIntersecting&&x.target.classList.add("show")),{threshold:.3});
+ if(observer) observer.disconnect();
+ observer=new IntersectionObserver(
+  e=>e.forEach(x=>x.isIntersecting&&x.target.classList.add("show")),
+  {threshold:.3}
+ );
  document.querySelectorAll(".line").forEach(l=>observer.observe(l));
 }
 
 /* ===== ANNIVERSARY CHECK ===== */
-const ANN_MONTH=3, ANN_DAY=5;
+/* Anniversary: 23 November */
+const ANN_MONTH = 11;
+const ANN_DAY = 23;
 (function(){
  const d=new Date();
  if(d.getMonth()+1===ANN_MONTH && d.getDate()===ANN_DAY){
-  billboard.style.display="flex";
+   billboard.style.display="flex";
  }
 })();
 
