@@ -6,81 +6,124 @@
 
 <style>
 body {
-  background: #0b0b0b;
-  color: #ffffff;
-  font-family: Arial, sans-serif;
+  background: radial-gradient(circle at top, #1a1a1a, #000);
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
   text-align: center;
   margin: 0;
-  padding: 0;
 }
 
 .container {
-  padding-top: 20vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
 }
 
 h1 {
-  color: #ff4d6d;
-  font-size: 2.5em;
+  color: #ff5c8a;
+  font-size: 2.6em;
+  margin-bottom: 10px;
 }
 
-p {
-  font-size: 1.1em;
-  opacity: 0.85;
+.subtitle {
+  opacity: 0.8;
+  margin-bottom: 30px;
 }
 
 .counter {
-  margin-top: 25px;
-  font-size: 1.2em;
+  font-size: 1.1em;
+  line-height: 1.6;
   color: #ffd6e0;
+  margin-bottom: 35px;
 }
 
 .secret {
-  margin-top: 40px;
   font-size: 0.95em;
-  color: #888;
+  color: #aaa;
   cursor: pointer;
+  transition: transform 0.2s, color 0.2s;
 }
 
-.hidden {
-  display: none;
-  margin-top: 15px;
+.secret:hover {
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.reveal {
+  margin-top: 20px;
+  font-size: 1.1em;
   color: #ff9aa2;
+  opacity: 0;
+  transition: opacity 0.6s;
 }
 </style>
 </head>
 
 <body>
 <div class="container">
-  <h1>Hi Monica. ❤️</h1>
-  <p>This page exists only for you.</p>
-  <p>No distance. No firewall.</p>
+  <h1>Hi Monica ❤️</h1>
+  <div class="subtitle">This page exists only for you.</div>
 
   <div class="counter" id="counter"></div>
 
-  <div class="secret" onclick="reveal()">
-    ( tap here )
+  <div class="secret" onclick="showSecret()">
+    tap for a secret
   </div>
-  <div class="hidden" id="hiddenMsg">
-    You are my favorite bug in the system 🫶
-  </div>
+
+  <div class="reveal" id="reveal"></div>
 </div>
 
 <script>
-const startDate = new Date("2023-03-05"); // CHANGE IF NEEDED
+/* 🔹 CHANGE START DATE HERE */
+const startDate = new Date("2023-03-05");
 
-function updateCounter() {
-  const now = new Date();
-  const diff = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-  document.getElementById("counter").innerText =
-    "Together for " + diff + " days";
+/* 🔹 SECRET MESSAGES */
+const secrets = [
+  "You are my favorite bug in the system 🫶",
+  "Some distances only make love smarter.",
+  "You live rent-free in my head.",
+  "I’d choose you again, every timeline.",
+  "Not perfect. Still my person."
+];
+
+let secretIndex = 0;
+
+function showSecret() {
+  const el = document.getElementById("reveal");
+  el.style.opacity = 0;
+
+  setTimeout(() => {
+    el.innerText = secrets[secretIndex];
+    el.style.opacity = 1;
+    secretIndex = (secretIndex + 1) % secrets.length;
+  }, 200);
 }
 
-function reveal() {
-  document.getElementById("hiddenMsg").style.display = "block";
+/* 🔹 DETAILED COUNTER */
+function updateCounter() {
+  const now = new Date();
+  let diff = Math.floor((now - startDate) / 1000);
+
+  const daysTotal = Math.floor(diff / 86400);
+
+  let years = Math.floor(daysTotal / 365);
+  let remainingDays = daysTotal % 365;
+
+  let months = Math.floor(remainingDays / 30);
+  remainingDays %= 30;
+
+  let weeks = Math.floor(remainingDays / 7);
+  let days = remainingDays % 7;
+
+  document.getElementById("counter").innerHTML =
+    `<strong>Together:</strong><br>
+     ${years} years · ${months} months · ${weeks} weeks · ${days} days<br>
+     <span style="opacity:0.7">(${daysTotal} days total)</span>`;
 }
 
 updateCounter();
 </script>
-
 </body>
 </html>
