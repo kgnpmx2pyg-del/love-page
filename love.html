@@ -8,7 +8,7 @@
 body {
   margin: 0;
   background: #000;
-  font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
   color: #fff;
 }
 
@@ -18,7 +18,6 @@ body {
   inset: 0;
   z-index: 0;
 }
-
 .star {
   position: absolute;
   width: 2px;
@@ -28,16 +27,12 @@ body {
   opacity: 0.8;
   animation: drift linear infinite, twinkle ease-in-out infinite;
 }
-
-.paused .star {
-  animation-play-state: paused;
-}
+.paused .star { animation-play-state: paused; }
 
 @keyframes drift {
   from { transform: translateY(0); }
-  to   { transform: translateY(-120vh); }
+  to { transform: translateY(-120vh); }
 }
-
 @keyframes twinkle {
   0%,100% { opacity: 0.3; }
   50% { opacity: 1; }
@@ -54,254 +49,246 @@ body {
   align-items: center;
   text-align: center;
 }
+h1 { color:#ff5c8a; font-size:2.6em; margin-bottom:10px; }
+.subtitle { opacity:.8; margin-bottom:25px; }
+.counter { font-size:1.1em; line-height:1.6; color:#ffd6e0; margin-bottom:30px; }
 
-h1 {
-  color: #ff5c8a;
-  font-size: 2.6em;
-  margin-bottom: 10px;
-}
-
-.subtitle {
-  opacity: 0.8;
-  margin-bottom: 25px;
-}
-
-.counter {
-  font-size: 1.1em;
-  line-height: 1.6;
-  color: #ffd6e0;
-  margin-bottom: 30px;
-}
-
-/* ===== SECRET BUTTON ===== */
-.secret-btn {
-  font-size: 0.9em;
-  color: #777;
-  border: 1px solid rgba(255,255,255,0.2);
-  padding: 6px 14px;
+/* ===== LANGUAGE TOGGLE ===== */
+.lang-toggle {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  font-size: .85em;
+  color: #aaa;
+  border: 1px solid rgba(255,255,255,.2);
+  padding: 4px 10px;
   border-radius: 20px;
   cursor: pointer;
-  background: transparent;
-  transition: all 0.3s;
+  z-index: 20;
 }
+.lang-toggle:hover { color:#fff; border-color:#ff5c8a; }
 
-.secret-btn:hover {
-  color: #fff;
-  border-color: #ff5c8a;
+/* ===== SECRET ===== */
+.secret-btn {
+  font-size:.9em;
+  color:#777;
+  border:1px solid rgba(255,255,255,.2);
+  padding:6px 14px;
+  border-radius:20px;
+  cursor:pointer;
+  background:transparent;
 }
-
-.reveal {
-  margin-top: 18px;
-  font-size: 1.1em;
-  color: #ff9aa2;
-  opacity: 0;
-  transition: opacity 0.6s;
-}
+.secret-btn:hover { color:#fff; border-color:#ff5c8a; }
+.reveal { margin-top:18px; font-size:1.1em; color:#ff9aa2; opacity:0; transition:.6s; }
 
 /* ===== TIMELINE ===== */
 .timeline {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.85);
+  background: rgba(0,0,0,.85);
   display: none;
-  z-index: 5;
-  flex-direction: column;
+  z-index: 10;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
+.timeline h2 { color:#ff5c8a; margin-bottom:20px; }
+.timeline p { max-width:340px; opacity:.85; margin:8px 0; }
+.close { margin-top:20px; opacity:.6; cursor:pointer; }
 
-.timeline h2 {
-  color: #ff5c8a;
-  margin-bottom: 20px;
-}
-
-.timeline p {
-  max-width: 320px;
-  opacity: 0.85;
-  margin: 8px 0;
-}
-
-.close {
-  margin-top: 20px;
-  opacity: 0.6;
-  cursor: pointer;
-}
-
-/* ===== LETTER REVEAL ===== */
+/* ===== LETTER ===== */
 .letter {
-  max-width: 600px;
-  margin: 120px auto;
-  padding: 0 20px;
-  text-align: left;
-  line-height: 1.8;
-  font-size: 1.1em;
+  max-width:600px;
+  margin:120px auto;
+  padding:0 20px;
+  text-align:left;
+  line-height:1.8;
+  font-size:1.1em;
 }
-
 .line {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.8s ease;
-  margin: 30px 0;
+  opacity:0;
+  transform:translateY(20px);
+  transition:.8s;
+  margin:30px 0;
 }
+.line.show { opacity:1; transform:none; }
 
-.line.show {
-  opacity: 1;
-  transform: translateY(0);
+/* ===== ANNIVERSARY BILLBOARD ===== */
+.billboard {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, #120014, #000);
+  display: none;
+  z-index: 30;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
+.billboard h1 { font-size:3.2em; color:#ff5c8a; margin-bottom:20px; }
+.billboard p { font-size:1.3em; opacity:.9; margin:6px 0; }
 </style>
 </head>
 
 <body>
 
+<div class="lang-toggle" onclick="toggleLang()">EN / 中文</div>
 <div class="stars" id="stars"></div>
+
+<!-- ANNIVERSARY BILLBOARD -->
+<div class="billboard" id="billboard">
+  <div id="billboardText"></div>
+</div>
 
 <div class="container">
   <h1>Hi Monica ❤️</h1>
-  <div class="subtitle">Some distances are written in the stars.</div>
+  <div class="subtitle" id="subtitle"></div>
 
   <div class="counter" id="counter"></div>
 
-  <button class="secret-btn" onclick="showSecret()">something small</button>
+  <button class="secret-btn" onclick="showSecret()" id="secretBtn"></button>
   <div class="reveal" id="reveal"></div>
 
-  <div style="margin-top:25px; opacity:0.6; cursor:pointer"
-       onclick="openTimeline()">✦ memories</div>
+  <div style="margin-top:25px; opacity:.6; cursor:pointer" onclick="openTimeline()" id="memoryBtn"></div>
 </div>
 
 <div class="timeline" id="timeline">
-  <h2>Our Timeline</h2>
-
-  <p>🌱 5 March 2023 — Our first conversation. Nothing special… until everything was.</p>
-  <p>🌙 Nights turned into habits — video calls, silence, comfort.</p>
-  <p>🎂 Birthdays crossed time zones, not hearts.</p>
-  <p>🌍 Distance tested patience, trust, and strength.</p>
-  <p>💬 Fights happened. Apologies mattered more.</p>
-  <p>✨ 23 November 2025 — Official, without needing proof.</p>
-  <p>🔁 Every day since — choosing you again.</p>
-
-  <div class="close" onclick="closeTimeline()">close</div>
+  <h2 id="timelineTitle"></h2>
+  <div id="timelineContent"></div>
+  <div class="close" onclick="closeTimeline()" id="closeBtn"></div>
 </div>
 
-<div class="letter">
-  <div class="line">I didn’t expect this.</div>
-  <div class="line">Not the timing. Not the distance. Not you.</div>
-
-  <div class="line">But some people arrive quietly,</div>
-  <div class="line">and suddenly the world rearranges itself.</div>
-
-  <div class="line">We learned patience.</div>
-  <div class="line">We learned trust.</div>
-  <div class="line">We learned how to choose each other.</div>
-
-  <div class="line">If love had a shape,</div>
-  <div class="line">it would look like persistence.</div>
-
-  <div class="line">And if it had a name,</div>
-  <div class="line">it would be yours.</div>
-</div>
+<div class="letter" id="letter"></div>
 
 <script>
 /* ===== STARS ===== */
-const starBox = document.getElementById("stars");
-for (let i = 0; i < 140; i++) {
-  const s = document.createElement("div");
-  s.className = "star";
-  s.style.left = Math.random() * 100 + "vw";
-  s.style.top = Math.random() * 120 + "vh";
-  s.style.animationDuration =
-    (20 + Math.random() * 30) + "s, " +
-    (2 + Math.random() * 3) + "s";
+const starBox=document.getElementById("stars");
+for(let i=0;i<140;i++){
+  const s=document.createElement("div");
+  s.className="star";
+  s.style.left=Math.random()*100+"vw";
+  s.style.top=Math.random()*120+"vh";
+  s.style.animationDuration=(20+Math.random()*30)+"s,"+(2+Math.random()*3)+"s";
   starBox.appendChild(s);
 }
 
 /* ===== COUNTER ===== */
-const startDate = new Date("2023-03-05");
-function updateCounter() {
-  const now = new Date();
-  const total = Math.floor((now - startDate) / 86400000);
-  let y = Math.floor(total / 365);
-  let r = total % 365;
-  let m = Math.floor(r / 30);
-  r %= 30;
-  let w = Math.floor(r / 7);
-  let d = r % 7;
-
-  document.getElementById("counter").innerHTML =
-    `<strong>Together:</strong><br>
-     ${y}y · ${m}m · ${w}w · ${d}d<br>
-     <span style="opacity:0.7">(${total} days)</span>`;
+const startDate=new Date("2023-03-05");
+function updateCounter(){
+  const t=Math.floor((new Date()-startDate)/86400000);
+  let y=Math.floor(t/365),r=t%365,m=Math.floor(r/30);
+  r%=30; let w=Math.floor(r/7),d=r%7;
+  document.getElementById("counter").innerHTML=
+  `<strong>${y}y · ${m}m · ${w}w · ${d}d</strong><br><span style="opacity:.7">(${t} days)</span>`;
 }
 updateCounter();
 
-/* ===== SECRET MESSAGES ===== */
-const secrets = [
-  "You are my favorite bug in the system 🫶",
-  "Even silence feels warm with you.",
-  "I’d still choose you in every universe.",
-  "Some connections don’t fade."
-];
-let idx = 0;
+/* ===== LANGUAGE CONTENT ===== */
+let lang="en";
+const text={
+en:{
+ subtitle:"Some distances are written in the stars.",
+ secretBtn:"something small",
+ memoryBtn:"✦ memories",
+ close:"close",
+ timelineTitle:"Our Timeline",
+ timeline:[
+  "🌱 5 March 2023 — Our first conversation. And everything became special.",
+  "🌙 Nights turned into habits — video calls, peace, comfort.",
+  "🎂 Birthdays crossed time zones, made memories together.",
+  "🌍 Distance tested patience, trust, and strength. and we never gave up",
+  "💬 Fights happened. Apologies mattered more.",
+  "✨ 23 November 2025 — Official became couples",
+  "🔁 Every day since — choosing you again."
+ ],
+ letter:[
+  "I didn’t expect this.",
+  "Not the timing. Not the distance. Not you.",
+  "But some people arrive quietly, and the world rearranges.",
+  "We learned patience. We learned trust.",
+  "If love had a name — it would be yours."
+ ],
+ billboard:[
+  "<h1>Happy Anniversary ❤️</h1>",
+  "<p>Still choosing you.</p>",
+  "<p>Today is ours.</p>"
+ ]
+},
+zh:{
+ subtitle:"有些距离，早已写进了星空。",
+ secretBtn:"一点小秘密",
+ memoryBtn:"✦ 回忆",
+ close:"关闭",
+ timelineTitle:"我们的时间线",
+ timeline:[
+  "🌱 2023年3月5日 — 第一次对话，一切从这里开始。",
+  "🌙 夜晚成了习惯，视频、安静、陪伴。",
+  "🎂 生日跨越时区，却没有拉开彼此。",
+  "🌍 距离考验了耐心、信任和坚持。",
+  "💬 有争吵，也有道歉。",
+  "✨ 2025年11月23日 — 不需要证明的正式。",
+  "🔁 从那以后，每一天都选择你。"
+ ],
+ letter:[
+  "我没想到会这样。",
+  "不是时间，不是距离，也不是你。",
+  "但有些人悄悄出现，世界便开始改变。",
+  "我们学会了耐心，也学会了信任。",
+  "如果爱有名字，那一定是你。"
+ ],
+ billboard:[
+  "<h1>纪念日快乐 ❤️</h1>",
+  "<p>我仍然选择你。</p>",
+  "<p>今天，只属于我们。</p>"
+ ]
+}
+};
 
-function showSecret() {
-  const r = document.getElementById("reveal");
-  r.style.opacity = 0;
-  setTimeout(() => {
-    r.innerText = secrets[idx];
-    r.style.opacity = 1;
-    idx = (idx + 1) % secrets.length;
-  }, 200);
+function applyLang(){
+ const c=text[lang];
+ subtitle.innerText=c.subtitle;
+ secretBtn.innerText=c.secretBtn;
+ memoryBtn.innerText=c.memoryBtn;
+ closeBtn.innerText=c.close;
+ timelineTitle.innerText=c.timelineTitle;
+ timelineContent.innerHTML=c.timeline.map(x=>`<p>${x}</p>`).join("");
+ letter.innerHTML=c.letter.map(x=>`<div class="line">${x}</div>`).join("");
+ billboardText.innerHTML=c.billboard.join("");
+ observeLetter();
 }
 
-/* ===== TIMELINE CONTROL ===== */
-function openTimeline() {
-  document.getElementById("timeline").style.display = "flex";
-  document.body.classList.add("paused");
+function toggleLang(){ lang=lang==="en"?"zh":"en"; applyLang(); }
+
+/* ===== SECRET ===== */
+const secrets=["You are my favorite bug 🫶","Some connections don’t fade.","I’d still choose you."];
+let i=0;
+function showSecret(){
+ reveal.style.opacity=0;
+ setTimeout(()=>{ reveal.innerText=secrets[i]; reveal.style.opacity=1; i=(i+1)%secrets.length; },200);
 }
-function closeTimeline() {
-  document.getElementById("timeline").style.display = "none";
-  document.body.classList.remove("paused");
+
+/* ===== TIMELINE ===== */
+function openTimeline(){ timeline.style.display="flex"; document.body.classList.add("paused"); }
+function closeTimeline(){ timeline.style.display="none"; document.body.classList.remove("paused"); }
+
+/* ===== LETTER REVEAL ===== */
+let observer;
+function observeLetter(){
+ if(observer)observer.disconnect();
+ observer=new IntersectionObserver(e=>e.forEach(x=>x.isIntersecting&&x.target.classList.add("show")),{threshold:.3});
+ document.querySelectorAll(".line").forEach(l=>observer.observe(l));
 }
 
-/* ===== LETTER SCROLL REVEAL ===== */
-const lines = document.querySelectorAll('.line');
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('show');
-    }
-  });
-}, { threshold: 0.3 });
-lines.forEach(l => observer.observe(l));
+/* ===== ANNIVERSARY CHECK ===== */
+const ANN_MONTH=3, ANN_DAY=5;
+(function(){
+ const d=new Date();
+ if(d.getMonth()+1===ANN_MONTH && d.getDate()===ANN_DAY){
+  billboard.style.display="flex";
+ }
+})();
 
-/* ===== REAL CONSTELLATION DRAW ===== */
-const constellation = [
-  [20,40],[20,55],[20,70],[30,55],[40,40],[40,55],[40,70], // M
-  [55,40],[55,70],[65,40],[65,70],                        // O
-  [80,40],[80,70],[90,40],[90,70],[100,40],[100,70],     // N
-  [115,40],[115,55],[115,70],                             // I
-  [130,40],[130,55],[130,70],[140,55],                    // C
-  [155,40],[155,55],[155,70],[165,55]                     // A
-];
-
-const stars = document.querySelectorAll('.star');
-
-setTimeout(() => {
-  stars.forEach((star, i) => {
-    if (constellation[i]) {
-      star.style.transition = "all 2s ease";
-      star.style.left = constellation[i][0] + "vw";
-      star.style.top = constellation[i][1] + "vh";
-    }
-  });
-
-  setTimeout(() => {
-    stars.forEach(star => {
-      star.style.left = Math.random() * 100 + "vw";
-      star.style.top = Math.random() * 120 + "vh";
-    });
-  }, 5000);
-
-}, 7000);
+/* INIT */
+applyLang();
 </script>
 
 </body>
